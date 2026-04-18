@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: mart_variables_mensual
+    description: >
+      Monthly closing values for each BCRA monetary variable.
+      For each (year, month, variable) combination, takes the last available
+      observation of the month. One row per variable per month.
+      Natural key: (anio, mes, nombre_variable).
+    columns:
+      - name: anio
+        description: "Calendar year of the observation (e.g. 2024)."
+        tests:
+          - not_null
+
+      - name: mes
+        description: "Calendar month of the observation, as integer 1–12."
+        tests:
+          - not_null
+
+      - name: nombre_variable
+        description: "Snake_case name of the BCRA variable (e.g. reservas_internacionales)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - reservas_internacionales
+                  - tipo_cambio_minorista
+                  - tasa_prestamos_personales
+                  - base_monetaria
+                  - variacion_m2_privado
+                  - prestamos_sector_privado
+                  - inflacion_mensual
+                  - inflacion_interanual
+                  - uva
+
+      - name: valor_cierre
+        description: "Last reported value of the variable within the month."
+        tests:
+          - not_null

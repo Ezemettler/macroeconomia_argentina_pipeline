@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: raw
+    database: bold-bond-491811-u3
+    schema: raw
+    tables:
+      - name: raw_bcra_variables
+        description: "Raw BCRA monetary variables loaded by the Python extraction pipeline."
+
+models:
+  - name: stg_bcra_variables
+    description: >
+      Staging model for BCRA monetary statistics. Selects from the raw table,
+      renames fields to English conventions, casts types explicitly, and removes
+      records with null values in any key field.
+    columns:
+      - name: observation_date
+        description: "Date of the observation (daily frequency for most variables)."
+        tests:
+          - not_null
+
+      - name: variable_id
+        description: "Numeric identifier of the BCRA variable (idVariable in the source API)."
+        tests:
+          - not_null
+
+      - name: variable_name
+        description: "Descriptive snake_case name of the variable (e.g. reservas_internacionales)."
+        tests:
+          - not_null
+
+      - name: value
+        description: "Reported numeric value for the variable on the given date."
+        tests:
+          - not_null

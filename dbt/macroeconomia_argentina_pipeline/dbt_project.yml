@@ -1,0 +1,24 @@
+name: 'macroeconomia_argentina_pipeline'
+version: '1.0.0'
+
+profile: 'macroeconomia_argentina_pipeline'
+
+model-paths:    ["models"]
+analysis-paths: ["analyses"]
+test-paths:     ["tests"]
+seed-paths:     ["seeds"]
+macro-paths:    ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  macroeconomia_argentina_pipeline:
+    staging:
+      +materialized: view
+      +dataset: staging
+    marts:
+      +materialized: table
+      +dataset: analytics
