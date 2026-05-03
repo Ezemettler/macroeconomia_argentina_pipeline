@@ -130,7 +130,7 @@ dbt test        # ejecuta los tests de calidad de datos
 
 ## Dashboard
 
-[Ver el dashboard en Looker Studio](#) *(link próximamente)*
+[Ver el dashboard en Looker Studio](https://datastudio.google.com/reporting/d7217684-498b-4d2a-826a-cb4fadabddc1)
 
 ---
 
