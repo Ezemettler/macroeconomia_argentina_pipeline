@@ -23,8 +23,11 @@ config/service_account*.json
 # dbt
 dbt/target/
 dbt/dbt_packages/
-dbt/logs/
+dbt/**/logs/
 profiles.yml
+
+# Logs
+logs/
 
 # BigQuery
 *.json

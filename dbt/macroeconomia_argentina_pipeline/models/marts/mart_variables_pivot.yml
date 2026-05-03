@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: mart_variables_pivot
+    description: >
+      Wide-format table with one row per month and one column per BCRA variable.
+      Built from mart_variables_mensual via CASE WHEN pivot.
+      Variables with no data for a given month appear as NULL.
+      Natural key: (anio, mes).
+    columns:
+      - name: anio
+        description: "Calendar year."
+        tests:
+          - not_null
+
+      - name: mes
+        description: "Calendar month as integer 1–12."
+        tests:
+          - not_null
+
+      - name: fecha_mes
+        description: "First day of the month as DATE (e.g. 2024-01-01). Useful for time series joins and charts."
+        tests:
+          - not_null
+          - unique
+
+      - name: tipo_cambio_minorista
+        description: "Retail exchange rate (ARS/USD), closing value of the month."
+
+      - name: inflacion_mensual
+        description: "Monthly CPI variation (%)."
+
+      - name: inflacion_interanual
+        description: "Year-on-year CPI variation (%)."
+
+      - name: reservas_internacionales
+        description: "International reserves in millions of USD."
+
+      - name: base_monetaria
+        description: "Monetary base in millions of ARS."
+
+      - name: tasa_prestamos_personales
+        description: "Interest rate on personal loans (%)."
+
+      - name: prestamos_sector_privado
+        description: "Loans to the private sector in millions of ARS."
+
+      - name: variacion_m2_privado
+        description: "Year-on-year variation of the 30-day moving average of private M2 (%)."
+
+      - name: uva
+        description: "UVA index value (base 31-03-2016 = 14.05)."

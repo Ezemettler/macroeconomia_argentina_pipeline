@@ -1,0 +1,29 @@
+fecha,evento,categoria
+2003-05-25,Asume N. Kirchner,gobierno
+2007-10-28,Elección presidencial: Gana CFK,eleccion
+2007-12-10,Asume CFK,gobierno
+2009-06-28,Eleccion legislativa - Gana PRO (F. Narvaez),eleccion
+2011-10-23,Reelección de CFK,eleccion
+2011-10-31,Inicio cepo cambiario,cepo
+2013-10-27,Eleccion legislativa - Gana F. Renovador (S. Massa),eleccion
+2015-10-25,Eleccion presidencial: Gana D. Scioli,eleccion
+2015-11-22,Ballotage - Gana M. Macri,eleccion
+2015-12-10,Asume M. Macri,gobierno
+2015-12-17,Fin cepo cambiario,cepo
+2017-10-22,Eleccion legislativa - Gana Cambiemos,eleccion
+2019-08-11,PASO Presidencial - Gana A. Fernández,eleccion
+2019-09-01,Inicio cepo cambiario,cepo
+2019-10-27,Elección presidencial - Gana A. Fernández,eleccion
+2019-12-10,Asume A. Fernández,gobierno
+2020-03-20,Inicio cuarentena COVID,otro
+2021-09-12,PASO legislativa - Gana JxCambio,eleccion
+2021-11-14,Eleccion legislativa - Gana JxCambio,eleccion
+2022-07-02,Renuncia Martín Guzmán (Min Econ),ministerio
+2022-07-04,Asume Silvina Batakis (Min Econ),ministerio
+2022-08-03,Asume Sergio Massa (Min Econ),ministerio
+2023-08-13,PASO Presidencial - Gana J. Milei,eleccion
+2023-10-22,Elección presidencial - Gana S. Massa,eleccion
+2023-11-19,Ballotage - Gana J. Milei,eleccion
+2023-12-10,Asume J. Milei,gobierno
+2025-09-07,Eleccion legislativa Prov Bs As - Gana F. Patria,eleccion
+2025-10-26,Eleccion legislativa Nacional - Gana LLA,eleccion
