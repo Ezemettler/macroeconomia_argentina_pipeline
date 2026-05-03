@@ -1,6 +1,6 @@
 # macroeconomia_argentina_pipeline
 
-An end-to-end ELT pipeline that extracts monetary and macroeconomic data from Argentina's Central Bank (BCRA) public API, loads it into BigQuery, transforms it with dbt, and visualizes it in Looker Studio.
+Pipeline ELT end-to-end que extrae datos monetarios y macroeconómicos de la API pública del Banco Central de la República Argentina (BCRA), los carga en BigQuery, los transforma con dbt y los visualiza en Looker Studio.
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)
 ![BigQuery](https://img.shields.io/badge/BigQuery-GCP-blue?logo=google-cloud&logoColor=white)
@@ -10,82 +10,82 @@ An end-to-end ELT pipeline that extracts monetary and macroeconomic data from Ar
 
 ---
 
-## What this project does
+## Qué hace este proyecto
 
-This pipeline automates the collection and analysis of Argentina's key macroeconomic indicators:
+Este pipeline automatiza la recolección y el análisis de los principales indicadores macroeconómicos de Argentina:
 
-1. **Extract** — A Python script queries the BCRA's public REST API and retrieves daily observations for 9 monetary variables, handling pagination and retries automatically.
-2. **Load** — Records are loaded into a raw BigQuery table. An incremental loader ensures each daily run only appends new data.
-3. **Transform** — dbt models clean the raw data, compute monthly closing values, pivot variables into a wide analytical table, and enrich it with political context (government periods, key economic events).
-4. **Visualize** — The final mart is connected to a Looker Studio dashboard for time series analysis and exploration.
+1. **Extracción** — Un script Python consulta la API REST pública del BCRA y obtiene observaciones diarias para 9 variables monetarias, con manejo automático de paginación y reintentos.
+2. **Carga** — Los registros se cargan en una tabla raw de BigQuery. Un loader incremental garantiza que cada ejecución diaria solo agregue datos nuevos.
+3. **Transformación** — Los modelos dbt limpian los datos crudos, calculan valores de cierre mensual, pivotean las variables en una tabla analítica y la enriquecen con contexto político (períodos de gobierno y eventos económicos clave).
+4. **Visualización** — El mart final se conecta a un dashboard de Looker Studio para análisis de series de tiempo y exploración interactiva.
 
 ---
 
-## Architecture
+## Arquitectura
 
 ```
-BCRA Public API
-      │
-      │  HTTP (Python / requests)
-      ▼
+API Pública del BCRA
+        │
+        │  HTTP (Python / requests)
+        ▼
 extraction/bcra/extractor.py
-      │
-      │  google-cloud-bigquery
-      ▼
-BigQuery: raw.raw_bcra_variables      ← daily historical load
-      │
-      │  dbt
-      ▼
-BigQuery: staging.stg_bcra_variables  ← cleaned, typed, nulls removed
-      │
-      │  dbt
-      ▼
-BigQuery: analytics.mart_variables_mensual   ← monthly closing values
-      │
-      │  dbt
-      ▼
-BigQuery: analytics.mart_variables_pivot     ← wide table, enriched with
-      │                                         government periods & events
-      │
-      ▼
-Looker Studio Dashboard
+        │
+        │  google-cloud-bigquery
+        ▼
+BigQuery: raw.raw_bcra_variables         ← carga histórica diaria
+        │
+        │  dbt
+        ▼
+BigQuery: staging.stg_bcra_variables     ← datos limpios, tipados, sin nulos
+        │
+        │  dbt
+        ▼
+BigQuery: analytics.mart_variables_mensual   ← valor de cierre mensual por variable
+        │
+        │  dbt
+        ▼
+BigQuery: analytics.mart_variables_pivot     ← tabla wide, enriquecida con
+        │                                       gobiernos y eventos políticos
+        │
+        ▼
+Dashboard en Looker Studio
 ```
 
 ---
 
-## Variables analyzed
+## Variables analizadas
 
-| Variable | Description |
+| Variable | Descripción |
 |---|---|
-| `reservas_internacionales` | Argentina's international reserves held by the BCRA (millions USD) |
-| `tipo_cambio_minorista` | Retail USD/ARS exchange rate (average sell price) |
-| `tasa_prestamos_personales` | Interest rate on personal loans (%) |
-| `base_monetaria` | Total monetary base in circulation (millions ARS) |
-| `variacion_m2_privado` | Year-on-year change of the 30-day moving average of private M2 (%) |
-| `prestamos_sector_privado` | Total loans granted to the private sector (millions ARS) |
-| `inflacion_mensual` | Monthly CPI variation reported by INDEC (%) |
-| `inflacion_interanual` | Year-on-year CPI variation (%) |
-| `uva` | UVA index — inflation-adjustment unit used for mortgages (base 31-03-2016 = 14.05) |
+| `reservas_internacionales` | Reservas internacionales del BCRA (millones de USD) |
+| `tipo_cambio_minorista` | Tipo de cambio minorista (promedio vendedor, ARS/USD) |
+| `tasa_prestamos_personales` | Tasa de interés de préstamos personales (%) |
+| `base_monetaria` | Base monetaria total en circulación (millones de ARS) |
+| `variacion_m2_privado` | Variación interanual del promedio móvil de 30 días del M2 privado (%) |
+| `prestamos_sector_privado` | Préstamos totales otorgados al sector privado (millones de ARS) |
+| `inflacion_mensual` | Variación mensual del IPC informada por INDEC (%) |
+| `inflacion_interanual` | Variación interanual del IPC (%) |
+| `uva` | Índice UVA — unidad de ajuste por inflación para créditos hipotecarios (base 31-03-2016 = 14,05) |
 
 ---
 
-## Tech stack
+## Stack tecnológico
 
-| Layer | Technology |
+| Capa | Tecnología |
 |---|---|
-| Extraction & loading | Python 3.10, `requests`, `google-cloud-bigquery` |
+| Extracción y carga | Python 3.10, `requests`, `google-cloud-bigquery` |
 | Data warehouse | Google BigQuery |
-| Transformation | dbt 1.11 (dbt-bigquery) |
-| Orchestration | Cloud Run + Cloud Scheduler |
-| Visualization | Looker Studio |
-| CI/CD | GitHub Actions *(coming soon)* |
-| Auth | Google Application Default Credentials (OAuth) |
+| Transformación | dbt 1.11 (dbt-bigquery) |
+| Orquestación | Cloud Run + Cloud Scheduler |
+| Visualización | Looker Studio |
+| CI/CD | GitHub Actions *(próximamente)* |
+| Autenticación | Google Application Default Credentials (OAuth) |
 
 ---
 
-## Running the project locally
+## Cómo correr el proyecto localmente
 
-### 1. Clone and install dependencies
+### 1. Clonar e instalar dependencias
 
 ```bash
 git clone git@github.com:Ezemettler/macroeconomia_argentina_pipeline.git
@@ -94,47 +94,47 @@ pip install requests google-cloud-bigquery
 pip install dbt-bigquery
 ```
 
-### 2. Configure GCP credentials
+### 2. Configurar credenciales de GCP
 
 ```bash
 gcloud auth application-default login
-gcloud config set project YOUR_GCP_PROJECT_ID
-gcloud auth application-default set-quota-project YOUR_GCP_PROJECT_ID
+gcloud config set project TU_GCP_PROJECT_ID
+gcloud auth application-default set-quota-project TU_GCP_PROJECT_ID
 ```
 
-### 3. Set environment variables
+### 3. Configurar variables de entorno
 
 ```bash
-export GCP_PROJECT_ID=your-gcp-project-id
+export GCP_PROJECT_ID=tu-proyecto-gcp
 export BQ_DATASET=raw
 ```
 
-### 4. Run the historical load
+### 4. Correr la carga histórica
 
-Extracts all 9 variables from 2003-01-01 to today and loads them into BigQuery.
+Extrae las 9 variables desde 2003-01-01 hasta hoy y las carga en BigQuery.
 
 ```bash
 python scripts/load_historical.py
 ```
 
-### 5. Run dbt transformations
+### 5. Correr las transformaciones dbt
 
 ```bash
 cd dbt/macroeconomia_argentina_pipeline
-dbt seed        # load political events reference table
-dbt run         # build all models
-dbt test        # run data quality tests
+dbt seed        # carga la tabla de referencia de eventos políticos
+dbt run         # construye todos los modelos
+dbt test        # ejecuta los tests de calidad de datos
 ```
 
 ---
 
 ## Dashboard
 
-[View the Looker Studio dashboard](#) *(link coming soon)*
+[Ver el dashboard en Looker Studio](#) *(link próximamente)*
 
 ---
 
-## Author
+## Autor
 
 **Ezequiel Mettler**
 [github.com/Ezemettler](https://github.com/Ezemettler)
